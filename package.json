@@ -1,0 +1,17 @@
+{
+	"name": "devcamper",
+	"version": "1.0.0",
+	"description": "DevCapmer Backend API",
+	"main": "server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "NODE_ENV=production node server.js",
+		"devStart": "nodemon server.js"
+	},
+	"author": "Mobolaji Olawale",
+	"license": "ISC",
+	"dependencies": {
+		"dotenv": "^16.0.0",
+		"express": "^4.17.3"
+	}
+}
