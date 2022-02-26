@@ -13,7 +13,7 @@ const BootcampSchema = new mongoose.Schema({
 		type: String,
 		required: [true, "Please add a description"],
 		trim: true,
-		maxLength: [50, "Name can not be more than 500 characters"],
+		maxLength: [500, "Name can not be more than 500 characters"],
 	},
 	website: {
 		type: String,
@@ -61,7 +61,7 @@ const BootcampSchema = new mongoose.Schema({
 		required: true,
 		enum: [
 			"Web Development",
-			"Mobile Developement",
+			"Mobile Development",
 			"UI/UX",
 			"Data Science",
 			"Business",
