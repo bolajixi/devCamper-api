@@ -15,8 +15,10 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 
 		res.status(200).json({
 			success: true,
+			count: Bootcamp.length,
 			data: bootcamp,
 		});
+		console.log({ ...Bootcamp });
 	} catch (error) {
 		next(error);
 	}
