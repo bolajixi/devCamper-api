@@ -7,22 +7,26 @@ const geocoder = require("../utils/geocoder");
 // @toute   GET /api/v1/bootcamps
 // @access  Public
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
-	try {
-		const bootcamp = await Bootcamp.find();
+	let queryStr = JSON.stringify(req.query);
 
-		if (!bootcamp) {
-			return next(new ErrorResponse(`No bootcamps not found`, 404));
-		}
+	// using reg expr, replace any gt(greater than) with $gt
+	// as a filter parameter for mongoose
+	queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => {
+		"$" + match;
+	});
+	console.log(req.query, queryStr);
 
-		res.status(200).json({
-			success: true,
-			count: Bootcamp.length,
-			data: bootcamp,
-		});
-		console.log({ ...Bootcamp });
-	} catch (error) {
-		next(error);
+	const bootcamp = await Bootcamp.find(JSON.parse(queryStr));
+
+	if (!bootcamp) {
+		return next(new ErrorResponse(`No bootcamps not found`, 404));
 	}
+
+	res.status(200).json({
+		success: true,
+		count: bootcamp.length,
+		data: bootcamp,
+	});
 });
 
 // @desc    Get single bootcamps
