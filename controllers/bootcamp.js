@@ -13,7 +13,7 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 
 	let queryStr = JSON.stringify(reqQuery);
 
-	const removeFields = ["select"];
+	const removeFields = ["select", "sort", "page", "limit"];
 
 	removeFields.forEach((param) => {
 		delete removeFields[param];
@@ -28,11 +28,9 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 
 	query = Bootcamp.find(JSON.parse(queryStr));
 
-	const bootcamp = await query;
-
 	// Check if only select is in query params and return only epecified field
 	if (req.query.select) {
-		const fields = req.query.select.dplit(",").join(" ");
+		const fields = req.query.select.split(",").join(" ");
 		query = query.select(fields);
 	}
 
@@ -43,6 +41,15 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 	} else {
 		query = query.sort("-createdAt");
 	}
+
+	// Add paginantion
+	const page = parseInt(req.params.page, 10) || 1;
+	const limit = parseInt(req.params.limit, 10) || 100;
+	const skip = (page - 1) * limit;
+
+	query = query.skip(skip).limit(limit);
+
+	const bootcamp = await query;
 
 	if (!bootcamp) {
 		return next(new ErrorResponse(`No bootcamps not found`, 404));
