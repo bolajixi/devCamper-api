@@ -7,7 +7,17 @@ const geocoder = require("../utils/geocoder");
 // @toute   GET /api/v1/bootcamps
 // @access  Public
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
-	let queryStr = JSON.stringify(req.query);
+	let query;
+
+	const reqQuery = { ...req.query };
+
+	let queryStr = JSON.stringify(reqQuery);
+
+	const removeFields = ["select"];
+
+	removeFields.forEach((param) => {
+		delete removeFields[param];
+	});
 
 	// using reg expr, replace any gt(greater than) with $gt
 	// as a filter parameter for mongoose
@@ -16,7 +26,23 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 	});
 	console.log(req.query, queryStr);
 
-	const bootcamp = await Bootcamp.find(JSON.parse(queryStr));
+	query = Bootcamp.find(JSON.parse(queryStr));
+
+	const bootcamp = await query;
+
+	// Check if only select is in query params and return only epecified field
+	if (req.query.select) {
+		const fields = req.query.select.dplit(",").join(" ");
+		query = query.select(fields);
+	}
+
+	// Check is sort is in query params and sort by
+	if (req.query.sort) {
+		const sortBy = req.query.sort.split(",").join(" ");
+		query = query.sort(sortBy);
+	} else {
+		query = query.sort("-createdAt");
+	}
 
 	if (!bootcamp) {
 		return next(new ErrorResponse(`No bootcamps not found`, 404));
