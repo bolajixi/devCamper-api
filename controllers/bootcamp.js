@@ -24,7 +24,6 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 	queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => {
 		"$" + match;
 	});
-	console.log(req.query, queryStr);
 
 	query = Bootcamp.find(JSON.parse(queryStr));
 
@@ -43,13 +42,31 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 	}
 
 	// Add paginantion
-	const page = parseInt(req.params.page, 10) || 1;
-	const limit = parseInt(req.params.limit, 10) || 100;
-	const skip = (page - 1) * limit;
+	const page = parseInt(req.query.page, 10) || 1;
+	const limit = parseInt(req.query.limit, 10) || 25;
+	const startIndex = (page - 1) * limit;
+	const endIndex = page * limit;
+	const total = await Bootcamp.countDocuments();
 
-	query = query.skip(skip).limit(limit);
+	query = query.skip(startIndex).limit(limit);
 
 	const bootcamp = await query;
+
+	// pagination result
+	const pagination = {};
+
+	if (endIndex < total) {
+		pagination.next = {
+			page: page + 1,
+			limit,
+		};
+	}
+	if (startIndex > 0) {
+		pagination.prev = {
+			page: page - 1,
+			limit,
+		};
+	}
 
 	if (!bootcamp) {
 		return next(new ErrorResponse(`No bootcamps not found`, 404));
@@ -58,6 +75,7 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 	res.status(200).json({
 		success: true,
 		count: bootcamp.length,
+		pagination,
 		data: bootcamp,
 	});
 });
@@ -77,6 +95,7 @@ exports.getBootcamp = asyncHandler(async (req, res, next) => {
 	res.status(200).json({
 		success: true,
 		data: bootcamp,
+		pagination,
 	});
 });
 
