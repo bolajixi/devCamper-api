@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
-const { modelName } = require("./Bootcamp");
 
-const courseSchema = new mongoose.Schema({
+const CourseSchema = new mongoose.Schema({
 	title: {
 		type: String,
 		trim: true,
