@@ -9,7 +9,7 @@ const ErrorResponse = require("../utils/errorResponse");
 // @toute   GET /api/v1/bootcamps/:bootcampId/courses
 // @access  Public
 
-exports.getCoursess = asyncHandler(async (req, res, next) => {
+exports.getCourses = asyncHandler(async (req, res, next) => {
 	let query;
 
 	if (req.params.bootcampId) {
