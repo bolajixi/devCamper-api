@@ -10,7 +10,7 @@ connectDb();
 
 // Import routes
 const bootcamps = require("./routes/bootcamps");
-const { deleteBootcamp } = require("./controllers/bootcamp");
+const courses = require("./routes/courses");
 
 const app = express();
 
@@ -23,6 +23,7 @@ app.use(express.json());
 
 // Monnt Routers
 app.use("/api/v1/bootcamps", bootcamps);
+app.use("/api/v1/courses", courses);
 
 app.use(errorHandler);
 
