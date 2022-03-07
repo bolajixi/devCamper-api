@@ -2,6 +2,7 @@ const express = require("express");
 
 const dotenv = require("dotenv");
 const morgan = require("morgan");
+const path = require("path");
 const fileupload = require("express-fileupload");
 const errorHandler = require("./middleware/error");
 const connectDb = require("./config/db");
@@ -22,6 +23,8 @@ if (process.env.NODE_ENV === "development") {
 
 app.use(express.json());
 app.use(fileupload());
+
+app.use(express.static(path.join(__dirname, "public")));
 
 // Monnt Routers
 app.use("/api/v1/bootcamps", bootcamps);
