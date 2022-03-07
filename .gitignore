@@ -106,4 +106,6 @@ dist
 # Remove environment file
 config/config.env
 
+# Igonored folders
 _data/
+public/uploads/
