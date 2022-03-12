@@ -33,10 +33,10 @@ exports.getBootcamp = asyncHandler(async (req, res, next) => {
 // @toute   POST /api/v1/bootcamps
 // @access  Private
 exports.createBootcamp = asyncHandler(async (req, res, next) => {
-	req.body.user = req.user;
+	req.body.user = req.user.id;
 
 	// Add logic where Publisher can pbulish only one bootcamp
-	const publishedBootcamp = Bootcamp.findOne({ user: req.user.id });
+	const publishedBootcamp = await Bootcamp.findOne({ user: req.user.id });
 
 	if (publishedBootcamp && req.user.role !== "admin") {
 		return next(
@@ -74,7 +74,7 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
 		);
 	}
 
-	bootcamp = await Bootcamp.findByIdAndUpdate(req.params.id, req.body, {
+	bootcamp = await Bootcamp.findOneAndUpdate(req.params.id, req.body, {
 		new: true,
 		runValidators: true,
 	});
