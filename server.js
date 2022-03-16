@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api/v1/bootcamps", bootcamps);
 app.use("/api/v1/courses", courses);
 app.use("/api/v1/auth", auth);
-app.use("/api/v1/user", user);
+app.use("/api/v1/users", user);
 
 app.use(errorHandler);
 
