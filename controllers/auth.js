@@ -1,4 +1,3 @@
-const path = require("path");
 const asyncHandler = require("../middleware/async");
 const User = require("../models/User");
 const ErrorResponse = require("../utils/errorResponse");
@@ -39,7 +38,6 @@ exports.login = asyncHandler(async (req, res, next) => {
 	}
 
 	// Check if password matches
-	const isMatch = await user.matchPassword(password);
 
 	sendTokenResponse(user, 200, res);
 });
@@ -47,7 +45,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 // @desc    Get current logged in User
 // @route   GET /api/v1/auth/me
 // @access  Private
-exports.getMe = asyncHandler(async (req, res, next) => {
+exports.getMe = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user.id);
 
 	res.status(200).json({
@@ -59,7 +57,7 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 // @desc    UPDATE User Details
 // @toute	PUT /api/v1/auth/updatedetails
 // @access  Private
-exports.updateDetails = asyncHandler(async (req, res, next) => {
+exports.updateDetails = asyncHandler(async (req, res) => {
 	const fieldsToUpdate = {
 		name: req.body.name,
 		email: req.body.email,
