@@ -109,3 +109,6 @@ config/config.env
 # Igonored folders
 _data/
 public/uploads/
+
+# Igonored folder setting
+.DS_Store
