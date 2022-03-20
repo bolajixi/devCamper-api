@@ -6,6 +6,11 @@ const path = require("path");
 const fileupload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const mongoSanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
+const xss = require("xss-clean");
+const rateLimit = require("express-rate-limit");
+const hpp = require("hpp");
+const cors = require("cors");
 const errorHandler = require("./middleware/error");
 const connectDb = require("./config/db");
 
@@ -26,11 +31,24 @@ if (process.env.NODE_ENV === "development") {
 	app.use(morgan("dev"));
 }
 
+// Middlewares
 app.use(express.json());
 app.use(fileupload());
 app.use(mongoSanitize());
 app.use(cookieParser());
+app.use(helmet());
+app.use(xss());
+const limiter = rateLimit({
+	WindowMs: 10 * 60 * 1000, // 10 Mins
+	max: 20, // 20 requests
+});
+app.use(limiter);
+app.use(hpp());
 
+// Enable CORS
+app.use(cors());
+
+// Use Static folder
 app.use(express.static(path.join(__dirname, "public")));
 
 // Monnt Routers
