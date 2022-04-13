@@ -4,7 +4,7 @@ const ErrorResponse = require("../utils/errorResponse");
 const sendEmail = require("../utils/sendEmail");
 
 // @desc    Register A User
-// @toute   POST /api/v1/auth/register
+// @route   POST /api/v1/auth/register
 // @access  Public
 exports.register = asyncHandler(async (req, res, next) => {
 	const { name, email, password, role } = req.body;
@@ -20,7 +20,7 @@ exports.register = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Login User
-// @toute   POST /api/v1/auth/login
+// @route   POST /api/v1/auth/login
 // @access  Public
 exports.login = asyncHandler(async (req, res, next) => {
 	const { email, password } = req.body;
@@ -70,7 +70,7 @@ exports.getMe = asyncHandler(async (req, res) => {
 });
 
 // @desc    UPDATE User Details
-// @toute	PUT /api/v1/auth/updatedetails
+// @route	PUT /api/v1/auth/updatedetails
 // @access  Private
 exports.updateDetails = asyncHandler(async (req, res) => {
 	const fieldsToUpdate = {
@@ -89,7 +89,7 @@ exports.updateDetails = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update User Password
-// @toute   GET /api/v1/auth/updatepassword
+// @route   GET /api/v1/auth/updatepassword
 // @access  Public
 exports.updatePassword = asyncHandler(async (req, res, next) => {
 	const user = await User.findById(req.user.id).select("+password");
@@ -105,7 +105,7 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Forgot Password
-// @toute   GET /api/v1/auth/forgotpassword
+// @route   GET /api/v1/auth/forgotpassword
 // @access  Public
 exports.forgotPassword = asyncHandler(async (req, res, next) => {
 	const user = await User.findOne({ email: req.body.email });
