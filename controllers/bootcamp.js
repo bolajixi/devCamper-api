@@ -5,14 +5,14 @@ const ErrorResponse = require("../utils/errorResponse");
 const geocoder = require("../utils/geocoder");
 
 // @desc    Get all bootcamps
-// @toute   GET /api/v1/bootcamps
+// @route   GET /api/v1/bootcamps
 // @access  Public
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
 	res.status(200).json(res.advancedResults);
 });
 
 // @desc    Get single bootcamps
-// @toute   GET /api/v1/bootcamps/:id
+// @route   GET /api/v1/bootcamps/:id
 // @access  Public
 exports.getBootcamp = asyncHandler(async (req, res, next) => {
 	const bootcamp = await Bootcamp.findById(req.params.id);
@@ -30,7 +30,7 @@ exports.getBootcamp = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Create new bootcamp
-// @toute   POST /api/v1/bootcamps
+// @route   POST /api/v1/bootcamps
 // @access  Private
 exports.createBootcamp = asyncHandler(async (req, res, next) => {
 	req.body.user = req.user.id;
@@ -56,7 +56,7 @@ exports.createBootcamp = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Update single bootcamp
-// @toute   PUT /api/v1/bootcamps/:id
+// @route   PUT /api/v1/bootcamps/:id
 // @access  Private
 exports.updateBootcamp = asyncHandler(async (req, res, next) => {
 	let bootcamp = await Bootcamp.findById(req.params.id);
@@ -86,7 +86,7 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Remove single bootcamps
-// @toute   DELETE /api/v1/bootcamps/:id
+// @route   DELETE /api/v1/bootcamps/:id
 // @access  Private
 exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
 	const bootcamp = await Bootcamp.findById(req.params.id);
@@ -114,7 +114,7 @@ exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Get bootcamps withtin a radius
-// @toute   GET /api/v1/bootcamps/radius/:zipcode/:distance
+// @route   GET /api/v1/bootcamps/radius/:zipcode/:distance
 // @access  Private
 exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
 	const { zipcode, distance } = req.params;
@@ -139,7 +139,7 @@ exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Upload Photo for Bootcamp
-// @toute   PUT /api/v1/bootcamps/:id/photo
+// @route   PUT /api/v1/bootcamps/:id/photo
 // @access  Private
 exports.bootcampPhotoUpload = asyncHandler(async (req, res, next) => {
 	const bootcamp = await Bootcamp.findById(req.params.id);
