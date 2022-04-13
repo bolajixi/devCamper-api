@@ -8,7 +8,7 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 	const removeFields = ["select", "sort", "page", "limit"];
 
 	removeFields.forEach((param) => {
-		delete removeFields[param];
+		delete reqQuery[param];
 	});
 
 	// using reg expr, replace any gt(greater than) with $gt
